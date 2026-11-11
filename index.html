@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TechConnect: desenvolvimento web, suporte, manutenção e consultoria em tecnologia.">
+  <title>TechConnect | Soluções em tecnologia</title>
+  <style>
+    /* Identidade visual e estilos gerais */
+    :root {
+      --fundo: #f6f5fc;
+      --branco: #fff;
+      --texto: #1b1730;
+      --suave: #514b66;
+      --escuro: #130e25;
+      --roxo: #5328c1;
+      --lilas: #ceb8ff;
+      --linha: #ded9ed;
+      --sombra: 0 12px 34px #2c1a5210;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--texto);
+      background: var(--branco);
+      font-family: Inter, system-ui, sans-serif;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, p, ul, figure, blockquote { margin: 0; }
+    h1, h2, h3 { line-height: 1.12; }
+    h2 { font-size: clamp(2rem, 4vw, 3.35rem); letter-spacing: -.045em; }
+    h3 { font-size: 1.18rem; }
+    p { color: var(--suave); }
+    a { color: inherit; text-underline-offset: .25em; }
+    img { display: block; width: 100%; height: auto; }
+
+    :focus-visible {
+      outline: 3px solid #8660ed;
+      outline-offset: 4px;
+    }
+
+    .container { width: min(1120px, calc(100% - 3rem)); margin-inline: auto; }
+    .secao { padding-block: clamp(3.75rem, 8vw, 7rem); }
+    .fundo { background: var(--fundo); }
+
+    .pular {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      z-index: 1;
+      padding: .75rem 1rem;
+      background: var(--branco);
+      transform: translateY(-150%);
+    }
+
+    .pular:focus { transform: translateY(0); }
+
+    .rotulo {
+      margin-bottom: .85rem;
+      color: var(--roxo);
+      font-size: .76rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    /* Cabeçalho e banner */
+    .cabecalho, .hero, .rodape {
+      color: var(--branco);
+      background: var(--escuro);
+    }
+
+    .cabecalho { border-bottom: 1px solid #ffffff26; }
+    .barra { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 76px; }
+    .marca { display: inline-flex; align-items: center; font-size: 1.36rem; font-weight: 800; text-decoration: none; letter-spacing: -.045em; }
+    .marca span { color: var(--lilas); }
+    .sinal { margin-right: .45rem; font-size: 1.65rem; line-height: 1; }
+
+    nav ul { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem 1.4rem; list-style: none; padding: 0; }
+    nav a { text-decoration: none; }
+    nav a:hover { text-decoration: underline; }
+
+    .botao {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .75rem;
+      min-height: 48px;
+      padding: .65rem 1.1rem;
+      border: 1px solid transparent;
+      border-radius: .65rem;
+      background: var(--roxo);
+      color: var(--branco);
+      font: inherit;
+      font-weight: 750;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .botao:hover { background: #41199f; text-decoration: none; }
+    .botao-menu { min-height: 42px; background: transparent; border-color: #ffffff55; }
+    .hero { background: radial-gradient(ellipse at 85% 60%, #38205c, var(--escuro) 68%); }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1.05fr; align-items: center; gap: 2.5rem; padding-block: clamp(3.75rem, 9vw, 8rem); }
+    .hero .rotulo, .diferenciais .rotulo { color: var(--lilas); }
+    .hero h1 { max-width: 12ch; font-size: clamp(2.65rem, 6vw, 5.45rem); line-height: 1.01; letter-spacing: -.065em; }
+    .hero em { color: var(--lilas); font-style: normal; }
+    .hero-texto { margin: 1.35rem 0 1.6rem; max-width: 43ch; color: #e0d8ee; font-size: 1.1rem; }
+    .hero .botao { background: var(--lilas); color: var(--escuro); }
+    .hero .botao:hover { background: #e8dbff; }
+    .hero-imagem { aspect-ratio: 4 / 3; object-fit: cover; border: 1px solid #ffffff35; border-radius: 1.25rem; box-shadow: 0 22px 72px #05020880; }
+
+    /* Seções e cartões */
+    .sobre-grid, .contato-grid { display: grid; grid-template-columns: 1fr 1.12fr; gap: 2.5rem; }
+    .descricao p + p { margin-top: 1rem; }
+    .grade { display: grid; gap: 1.2rem; margin-top: 2rem; }
+    .grade-tres { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grade-quatro { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .principios article { padding: 1rem 1.25rem; border-left: 3px solid #9265ef; background: var(--fundo); border-radius: 0 .6rem .6rem 0; }
+    .principios p, .cartao h3 + p, .diferenciais h3 + p { margin-top: .6rem; }
+
+    .cartao { border: 1px solid var(--linha); border-radius: 1rem; background: var(--branco); box-shadow: var(--sombra); }
+    .servico { display: flex; flex-direction: column; align-items: flex-start; padding: 1.25rem; }
+    .icone { display: inline-grid; place-items: center; width: 48px; height: 48px; margin-bottom: 1rem; border-radius: .7rem; background: #ede5ff; color: var(--roxo); font-size: 1.2rem; font-weight: 800; }
+    .servico p { margin-bottom: 1.15rem; }
+    .servico a { margin-top: auto; color: var(--roxo); font-size: .9rem; font-weight: 750; }
+    .servico a:hover { color: #311174; }
+
+    .projeto { overflow: hidden; }
+    .projeto img { aspect-ratio: 16 / 10; object-fit: cover; }
+    .projeto-texto { padding: 1.25rem; }
+    .categoria { margin-bottom: .5rem; color: var(--roxo); font-size: .75rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+
+    .diferenciais { background: #21143a; color: var(--branco); }
+    .diferenciais ul { list-style: none; padding: 0; }
+    .diferenciais li { padding: 1.25rem; border: 1px solid #ffffff34; border-radius: 1rem; }
+    .diferenciais li p { color: #e0d8ee; }
+
+    .depoimento { display: flex; flex-direction: column; justify-content: space-between; gap: 1.35rem; padding: 1.35rem; }
+    .depoimento figcaption { padding-top: .85rem; border-top: 1px solid var(--linha); }
+    .depoimento figcaption span { display: block; color: var(--suave); font-size: .9rem; }
+
+    /* Contato e rodapé */
+    .contato-grid h2 + p { margin-top: 1rem; }
+    .contato-email { margin-top: 1rem; color: var(--roxo); font-weight: 700; overflow-wrap: anywhere; }
+    .formulario { display: grid; gap: 1rem; padding: clamp(1rem, 4vw, 2rem); }
+    .formulario > p { font-size: .9rem; }
+    .campos-duplos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+    label { display: block; margin-bottom: .3rem; font-weight: 700; }
+    input, textarea { display: block; width: 100%; min-height: 46px; padding: .6rem .7rem; border: 1px solid #8e83a6; border-radius: .55rem; color: var(--texto); background: #fdfcff; font: inherit; }
+    textarea { resize: vertical; }
+    .formulario button { justify-self: start; }
+
+    #mensagem-validada { display: none; }
+    #mensagem-validada:target { display: block; padding: .65rem .85rem; background: #e8f7ed; border-radius: .55rem; color: #174c29; }
+
+    .rodape { padding-top: 2.5rem; }
+    .rodape-grid { display: grid; grid-template-columns: 1.3fr 1fr .8fr; gap: 2rem; }
+    .rodape h2 { margin-bottom: .7rem; font-size: 1rem; letter-spacing: normal; }
+    .rodape nav ul { align-items: flex-start; gap: .35rem 1rem; }
+    address { margin-top: .75rem; color: #e0d8ee; font-style: normal; overflow-wrap: anywhere; }
+    .copyright { margin-top: 2rem; padding-block: 1rem; border-top: 1px solid #ffffff29; color: #e0d8ee; font-size: .88rem; }
+
+    /* Adaptação para tablets e celulares */
+    @media (max-width: 900px) {
+      .grade-quatro { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .hero-grid { gap: 1.5rem; }
+    }
+
+    @media (max-width: 680px) {
+      .container { width: calc(100% - 2rem); }
+      .barra { flex-wrap: wrap; padding-block: .85rem; }
+      .barra nav { width: 100%; font-size: .9rem; }
+      .barra nav ul { gap: .45rem 1rem; }
+      .hero-grid, .sobre-grid, .contato-grid, .grade-tres, .rodape-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+      .hero-imagem { aspect-ratio: 3 / 2; }
+    }
+
+    @media (max-width: 430px) {
+      .grade-quatro, .campos-duplos { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+
+  <header class="cabecalho">
+    <div class="container barra">
+      <a class="marca" href="#inicio"><span class="sinal" aria-hidden="true">✳︎</span> Tech<span>Connect</span></a>
+      <nav aria-label="Menu principal">
+        <ul>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#servicos">Serviços</a></li>
+          <li><a href="#projetos">Projetos</a></li>
+          <li><a class="botao botao-menu" href="#contato">Fale conosco</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <section id="inicio" class="hero" aria-labelledby="titulo-principal">
+      <div class="container hero-grid">
+        <div>
+          <p class="rotulo">Tecnologia para empresas</p>
+          <h1 id="titulo-principal">Tecnologia que faz seu negócio <em>avançar.</em></h1>
+          <p class="hero-texto">Criamos sites, cuidamos da sua infraestrutura e resolvemos os problemas de TI que atrapalham o dia a dia da sua equipe.</p>
+          <a class="botao" href="#servicos">Conheça nossos serviços</a>
+        </div>
+        <img class="hero-imagem" src="imagens/estacao.webp" alt="Notebook com editor de código em uma estação de trabalho iluminada em violeta" width="768" height="512" fetchpriority="high">
+      </div>
+    </section>
+
+    <section id="sobre" class="secao container" aria-labelledby="titulo-sobre">
+      <div class="sobre-grid">
+        <div>
+          <p class="rotulo">Sobre a TechConnect</p>
+          <h2 id="titulo-sobre">TI que cabe na rotina da sua empresa</h2>
+        </div>
+        <div class="descricao">
+          <p>A TechConnect é uma empresa fictícia de tecnologia que atende pequenos negócios. Reunimos desenvolvimento web, suporte e consultoria para ajudar equipes a trabalhar com ferramentas adequadas à sua rotina.</p>
+          <p>Começamos entendendo o problema e o orçamento. A partir daí, propomos um plano com escopo, prazos e próximos passos claros.</p>
+        </div>
+      </div>
+      <div class="grade grade-tres principios">
+        <article><h3>Missão</h3><p>Facilitar o uso da tecnologia no dia a dia de pequenos negócios.</p></article>
+        <article><h3>Visão</h3><p>Ser uma referência em atendimento próximo e soluções digitais confiáveis.</p></article>
+        <article><h3>Valores</h3><p>Transparência nos prazos, respeito às pessoas e cuidado com os dados.</p></article>
+      </div>
+    </section>
+
+    <section id="servicos" class="secao fundo" aria-labelledby="titulo-servicos">
+      <div class="container">
+        <p class="rotulo">Serviços</p>
+        <h2 id="titulo-servicos">Como podemos ajudar</h2>
+        <div class="grade grade-quatro">
+          <article class="cartao servico">
+            <span class="icone" aria-hidden="true">&lt;/&gt;</span>
+            <h3>Desenvolvimento de sites</h3>
+            <p>Sites institucionais, páginas de campanha e catálogos adaptados ao celular.</p>
+            <a href="#contato" aria-label="Consultar desenvolvimento de sites">Consultar serviço</a>
+          </article>
+          <article class="cartao servico">
+            <span class="icone" aria-hidden="true">◉</span>
+            <h3>Suporte técnico</h3>
+            <p>Diagnóstico de falhas em sistemas, impressoras e conexões de rede.</p>
+            <a href="#contato" aria-label="Consultar suporte técnico">Consultar serviço</a>
+          </article>
+          <article class="cartao servico">
+            <span class="icone" aria-hidden="true">⚙</span>
+            <h3>Manutenção de computadores</h3>
+            <p>Limpeza preventiva, diagnóstico de hardware e atualização de componentes.</p>
+            <a href="#contato" aria-label="Consultar manutenção de computadores">Consultar serviço</a>
+          </article>
+          <article class="cartao servico">
+            <span class="icone" aria-hidden="true">⌁</span>
+            <h3>Consultoria digital</h3>
+            <p>Orientação na escolha de ferramentas, na organização de arquivos e no planejamento de backups.</p>
+            <a href="#contato" aria-label="Consultar consultoria digital">Consultar serviço</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projetos" class="secao container" aria-labelledby="titulo-projetos">
+      <p class="rotulo">Portfólio</p>
+      <h2 id="titulo-projetos">Projetos ilustrativos</h2>
+      <div class="grade grade-tres">
+        <article class="cartao projeto">
+          <img src="imagens/verde.webp" alt="Notebook e celular exibindo um catálogo de plantas" width="768" height="512" loading="lazy">
+          <div class="projeto-texto">
+            <p class="categoria">Desenvolvimento web</p>
+            <h3>Verde em Casa</h3>
+            <p>Catálogo responsivo de uma floricultura, com categorias de plantas e acesso rápido ao contato da loja.</p>
+          </div>
+        </article>
+        <article class="cartao projeto">
+          <img src="imagens/rede.webp" alt="Equipamentos de rede com cabos conectados em um rack" width="768" height="512" loading="lazy">
+          <div class="projeto-texto">
+            <p class="categoria">Infraestrutura</p>
+            <h3>Rede Atlas</h3>
+            <p>Reorganização da rede de um escritório, com identificação dos pontos e Wi-Fi separado para visitantes.</p>
+          </div>
+        </article>
+        <article class="cartao projeto">
+          <img src="imagens/painel.webp" alt="Monitor exibindo um painel com gráficos e indicadores" width="768" height="512" loading="lazy">
+          <div class="projeto-texto">
+            <p class="categoria">Consultoria digital</p>
+            <h3>Painel Horizonte</h3>
+            <p>Painel de acompanhamento de vendas que reúne indicadores antes espalhados em planilhas.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="diferenciais" class="secao diferenciais" aria-labelledby="titulo-diferenciais">
+      <div class="container">
+        <p class="rotulo">Diferenciais</p>
+        <h2 id="titulo-diferenciais">O que você pode esperar</h2>
+        <ul class="grade grade-tres">
+          <li><span class="icone" aria-hidden="true">✓</span><h3>Orçamento claro</h3><p>Você sabe quais serviços estão incluídos e quais prazos foram combinados.</p></li>
+          <li><span class="icone" aria-hidden="true">✓</span><h3>Comunicação direta</h3><p>Explicamos o diagnóstico em linguagem acessível para facilitar suas decisões.</p></li>
+          <li><span class="icone" aria-hidden="true">✓</span><h3>Orientação na entrega</h3><p>Sua equipe recebe instruções para usar e manter o que foi instalado.</p></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="depoimentos" class="secao fundo" aria-labelledby="titulo-depoimentos">
+      <div class="container">
+        <p class="rotulo">Depoimentos fictícios</p>
+        <h2 id="titulo-depoimentos">Experiências de clientes</h2>
+        <div class="grade grade-tres">
+          <figure class="cartao depoimento">
+            <blockquote>“Agora consigo atualizar o catálogo da loja e os clientes encontram os produtos pelo celular.”</blockquote>
+            <figcaption><strong>Marina Lopes</strong><span>Verde em Casa</span></figcaption>
+          </figure>
+          <figure class="cartao depoimento">
+            <blockquote>“A equipe identificou os cabos e deixou um mapa da rede. Ficou muito mais fácil localizar cada ponto.”</blockquote>
+            <figcaption><strong>Rafael Dias</strong><span>Escritório Atlas</span></figcaption>
+          </figure>
+          <figure class="cartao depoimento">
+            <blockquote>“Passamos a consultar as vendas no mesmo painel durante as reuniões da equipe.”</blockquote>
+            <figcaption><strong>Camila Rocha</strong><span>Comercial Horizonte</span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="secao container contato-grid" aria-labelledby="titulo-contato">
+      <div>
+        <p class="rotulo">Contato</p>
+        <h2 id="titulo-contato">Conte o que você precisa</h2>
+        <p>Descreva o que você quer desenvolver, corrigir ou melhorar na sua empresa.</p>
+        <p class="contato-email">contato@techconnect.example</p>
+      </div>
+      <form class="cartao formulario" action="index.html#mensagem-validada" method="get" aria-label="Formulário de contato" aria-describedby="ajuda-formulario">
+        <p id="ajuda-formulario">Formulário de demonstração. Todos os campos são obrigatórios.</p>
+        <!-- Campos sem name mantêm os dados fora da URL nesta demonstração estática. -->
+        <div class="campos-duplos">
+          <div><label for="nome">Nome</label><input id="nome" type="text" autocomplete="name" maxlength="100" required></div>
+          <div><label for="email">E-mail</label><input id="email" type="email" autocomplete="email" maxlength="254" required></div>
+        </div>
+        <div><label for="assunto">Assunto</label><input id="assunto" type="text" maxlength="120" required></div>
+        <div><label for="mensagem">Mensagem</label><textarea id="mensagem" rows="5" maxlength="2000" required></textarea></div>
+        <button class="botao" type="submit" name="demo" value="1">Enviar mensagem</button>
+        <p id="mensagem-validada" tabindex="-1">Campos validados com sucesso. Demonstração concluída.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="container">
+      <div class="rodape-grid">
+        <div>
+          <a class="marca" href="#inicio"><span class="sinal" aria-hidden="true">✳︎</span> Tech<span>Connect</span></a>
+          <address>contato@techconnect.example<br>Belo Horizonte, MG · Atendimento fictício</address>
+        </div>
+        <nav aria-label="Navegação do rodapé">
+          <h2>Explore</h2>
+          <ul>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#servicos">Serviços</a></li>
+            <li><a href="#projetos">Projetos</a></li>
+            <li><a href="#diferenciais">Diferenciais</a></li>
+            <li><a href="#depoimentos">Depoimentos</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Redes sociais">
+          <h2>Redes sociais</h2>
+          <ul>
+            <li><a href="https://www.instagram.com/">Instagram</a></li>
+            <li><a href="https://www.linkedin.com/">LinkedIn</a></li>
+          </ul>
+        </nav>
+      </div>
+      <p class="copyright">© 2026 TechConnect. Todos os direitos reservados. Projeto acadêmico.</p>
+    </div>
+  </footer>
+</body>
+</html>
